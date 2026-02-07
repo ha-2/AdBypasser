@@ -2,6 +2,7 @@ import random
 import streamlit as st
 from PyBypass.main import BypasserNotFoundError, UnableToBypassError, UrlConnectionError
 import PyBypass as bypasser
+from ouo_cf_bypass import ouo_bypass
 
 st.set_page_config(
     page_title="URL Bypasser",
@@ -33,58 +34,45 @@ banned_websites = [
 ]
 
 __avl_website__ = [
-    "try2link.com",
-    " adf.ly",
-    " bit.ly",
-    " ouo.io",
-    " ouo.press",
-    " shareus.in",
-    " shortly.xyz",
-    " tinyurl.com",
-    " thinfi.com",
-    " hypershort.com ",
+    "bit.ly",
+    "ouo.io",
+    "ouo.press",
+    "tinyurl.com",
+    "thinfi.com",
     "safeurl.sirigan.my.id",
-    " gtlinks.me",
-    " loan.kinemaster.cc",
-    " theforyou.in",
-    " shorte.st",
-    " earn4link.in",
-    " tekcrypt.in",
-    " link.short2url.in",
-    " go.rocklinks.net",
-    " rocklinks.net",
-    " earn.moneykamalo.com",
-    " m.easysky.in",
-    " indianshortner.in",
-    " open.crazyblog.in",
-    " link.tnvalue.in",
-    " shortingly.me",
-    " open2get.in",
-    " dulink.in",
-    " bindaaslinks.com",
-    " za.uy",
-    " pdiskshortener.com",
-    " mdiskshortner.link",
-    " go.earnl.xyz",
-    " g.rewayatcafe.com",
-    " ser2.crazyblog.in",
-    " bitshorten.com",
-    " rocklink.in",
-    " droplink.co",
-    " tnlink.in",
-    " ez4short.com",
-    " xpshort.com",
-    " vearnl.in",
-    " adrinolinks.in",
-    " techymozo.com",
-    " linkbnao.com",
-    " linksxyz.in",
-    " short-jambo.com",
-    " ads.droplink.co.in",
-    " linkpays.in",
-    " pi-l.ink",
-    " link.tnlink.in ",
-    " pkin.me",
+    "gtlinks.me",
+    "earn4link.in",
+    "tekcrypt.in",
+    "link.short2url.in",
+    "go.rocklinks.net",
+    "rocklinks.net",
+    "earn.moneykamalo.com",
+    "m.easysky.in",
+    "indianshortner.in",
+    "shortingly.me",
+    "open2get.in",
+    "dulink.in",
+    "bindaaslinks.com",
+    "pdiskshortener.com",
+    "mdiskshortner.link",
+    "go.earnl.xyz",
+    "g.rewayatcafe.com",
+    "bitshorten.com",
+    "rocklink.in",
+    "droplink.co",
+    "tnlink.in",
+    "ez4short.com",
+    "xpshort.com",
+    "vearnl.in",
+    "adrinolinks.in",
+    "techymozo.com",
+    "linkbnao.com",
+    "short-jambo.com",
+    "ads.droplink.co.in",
+    "linkpays.in",
+    "pi-l.ink",
+    "link.tnlink.in",
+    "pkin.me",
 ]
 
 with tab1:
@@ -97,7 +85,10 @@ with tab1:
                 st.stop()
             try:
                 with st.spinner("Loading..."):
-                    bypassed_link = bypasser.bypass(url)
+                    if "ouo.io" in url or "ouo.press" in url:
+                        bypassed_link = ouo_bypass(url)
+                    else:
+                        bypassed_link = bypasser.bypass(url)
                     st.success(bypassed_link)
 
                 random_celeb()
@@ -122,5 +113,3 @@ with tab1:
 with tab2:
     st.subheader("Available Websites")
     st.table(__avl_website__)
-
-
