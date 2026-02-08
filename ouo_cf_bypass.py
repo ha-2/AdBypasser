@@ -61,18 +61,21 @@ def ouo_bypass(url: str) -> str:
         headers={"user-agent": "Mozilla/5.0"},
         timeout=20,
     )
-    if res.status_code in {403, 503}:
-        raise UnableToBypassError("Cloudflare challenge blocked the request.")
     next_url = f"{parsed.scheme}://{parsed.hostname}/go/{short_id}"
 
     for _ in range(2):
         if res.headers.get("Location"):
             break
 
+        if res.status_code in {403, 503} and not res.content:
+            raise UnableToBypassError("Cloudflare challenge blocked the request.")
+
         soup = BeautifulSoup(res.content, "html.parser")
         form = soup.form
         if not form:
-            raise UnableToBypassError("Unable to find ouo form payload.")
+            raise UnableToBypassError(
+                f"Unable to find ouo form payload (status {res.status_code})."
+            )
         inputs = form.find_all("input", {"name": re.compile(r"token$")})
         data = {input_tag.get("name"): input_tag.get("value") for input_tag in inputs}
         if not data:
